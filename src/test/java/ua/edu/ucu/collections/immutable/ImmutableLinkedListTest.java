@@ -10,7 +10,7 @@ public class ImmutableLinkedListTest {
 
     @Test
     public void testAddAllIndex() {
-        Object[] expectedArr = {1, 2, 3, 4, 8, 9, 9, 5};
+        Object[] expectedArr = {1, 2, 3, 8, 9, 9, 4, 5};
         ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
         Object[] arr = {8, 9, 9};
         ImmutableList actualIm = testImmutableLinked.addAll(3, arr);
@@ -71,10 +71,12 @@ public class ImmutableLinkedListTest {
         ImmutableList actualIm = testImmutableLinked.remove(2);
         assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
     }
+
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void removeLargeIndex() {
         testImmutableLinked.remove(20);
     }
+
     @Test
     public void set() {
         Object[] expectedArr = {1,2,8,4,5};

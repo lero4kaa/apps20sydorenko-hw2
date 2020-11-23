@@ -87,22 +87,25 @@ public class ImmutableLinkedList implements ImmutableList {
         if (0 > index || index > size) {
             throw new ArrayIndexOutOfBoundsException("Index out of bounds.");
         }
-        Node prevNode = getNode(index-1);
-        prevNode.setNext(prevNode.next.next);
-        return new ImmutableLinkedList(size-1);
+        Object[] resultArray = new Object[size-1];
+        System.arraycopy(generalArray, 0, resultArray, 0, index);
+        System.arraycopy(generalArray, index+1, resultArray, index, size-1-index);
+        return new ImmutableLinkedList(resultArray);
     }
 
     @Override
     public ImmutableLinkedList set(int index, Object e) {
-        Node curNode = getNode(index);
-        curNode.value = e;
-        return new ImmutableLinkedList(size);
+        Object[] resultArray = new Object[size];
+        System.arraycopy(generalArray, 0, resultArray, 0, index);
+        resultArray[index] = e;
+        System.arraycopy(generalArray, index+1, resultArray, index+1, size-index-1);
+        return new ImmutableLinkedList(resultArray);
     }
 
     @Override
     public int indexOf(Object e) {
         Node curNode = head;
-        for (int i = 0; i < size+1; i ++) {
+        for (int i = 0; i < size; i ++) {
             if (curNode.value == e) {
                 return i;
             }
