@@ -137,7 +137,9 @@ public class ImmutableLinkedList implements ImmutableList {
             bf.append(curNode.value + ",");
             curNode = curNode.next;
         }
-        bf.deleteCharAt(bf.length()-1);
+        if (bf.length() > 0) {
+            bf.deleteCharAt(bf.length()-1);
+        }
         return bf.toString();
     }
 

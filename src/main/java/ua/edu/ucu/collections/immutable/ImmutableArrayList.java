@@ -115,7 +115,9 @@ public class ImmutableArrayList implements ImmutableList {
         for (Object element: generalArray) {
             bf.append(element + ",");
         }
-        bf.deleteCharAt(bf.length()-1);
+        if (bf.length() > 0) {
+            bf.deleteCharAt(bf.length()-1);
+        }
         return bf.toString();
     }
 }
