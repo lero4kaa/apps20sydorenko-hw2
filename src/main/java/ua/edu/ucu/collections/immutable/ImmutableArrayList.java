@@ -17,24 +17,27 @@ public class ImmutableArrayList implements ImmutableList {
     }
 
     @Override
-    public ImmutableList add(Object e) {
+    public ImmutableArrayList add(Object e) {
         Object[] temp = {e};
         return addAll(length, temp);
     }
 
     @Override
-    public ImmutableList add(int index, Object e) {
+    public ImmutableArrayList add(int index, Object e) {
         Object[] temp = {e};
         return addAll(index, temp);
     }
 
     @Override
-    public ImmutableList addAll(Object[] c) {
+    public ImmutableArrayList addAll(Object[] c) {
         return addAll(length, c);
     }
 
     @Override
-    public ImmutableList addAll(int index, Object[] c) {
+    public ImmutableArrayList addAll(int index, Object[] c) {
+        if (0 > index || index > length) {
+            throw new ArrayIndexOutOfBoundsException("Index out of bounds");
+        }
         Object[] resultArray = new Object[length+c.length];
         System.arraycopy(generalArray, 0, resultArray, 0, index);
         System.arraycopy(c, 0, resultArray, index, c.length);
@@ -51,8 +54,8 @@ public class ImmutableArrayList implements ImmutableList {
     }
 
     @Override
-    public ImmutableList remove(int index) {
-        if (0 > index || index <= length) {
+    public ImmutableArrayList remove(int index) {
+        if (0 > index || index >= length) {
             throw new ArrayIndexOutOfBoundsException("Index out of bounds");
         }
         Object[] resultArray = new Object[length-1];
@@ -62,14 +65,14 @@ public class ImmutableArrayList implements ImmutableList {
     }
 
     @Override
-    public ImmutableList set(int index, Object e) {
-        if (0 > index || index <= length) {
+    public ImmutableArrayList set(int index, Object e) {
+        if (0 > index || index >= length) {
             throw new ArrayIndexOutOfBoundsException("Index out of bounds");
         }
-        Object[] resultArray = new Object[length-1];
+        Object[] resultArray = new Object[length];
         System.arraycopy(generalArray, 0, resultArray, 0, index);
         resultArray[index] = e;
-        System.arraycopy(generalArray, index, resultArray, index+1, length-index);
+        System.arraycopy(generalArray, index+1, resultArray, index+1, length-index-1);
         return new ImmutableArrayList(resultArray);
     }
 
@@ -91,7 +94,7 @@ public class ImmutableArrayList implements ImmutableList {
     }
 
     @Override
-    public ImmutableList clear() {
+    public ImmutableArrayList clear() {
         return new ImmutableArrayList();
     }
 
@@ -102,22 +105,8 @@ public class ImmutableArrayList implements ImmutableList {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
-    }
-
-    @Override
-    public boolean checkEquals(ImmutableList other) {
-        if (length == other.size()) {
-            for (int i = 0; i < length; i++) {
-                if (generalArray[i] != other.get(i)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        System.out.println(length);
-        System.out.println(other.size());
-        return false;
+        Object[] resultArray = generalArray.clone();
+        return resultArray;
     }
 
     public String toString() {
@@ -127,4 +116,5 @@ public class ImmutableArrayList implements ImmutableList {
         }
         return bf.toString();
     }
+
 }
