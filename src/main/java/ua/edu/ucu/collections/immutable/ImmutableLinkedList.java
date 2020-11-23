@@ -25,9 +25,6 @@ public class ImmutableLinkedList implements ImmutableList {
         tail = curNode;
     }
 
-    public ImmutableLinkedList(int s) {
-        size = s;
-    }
 
     @Override
     public ImmutableLinkedList add(Object e) {
@@ -43,7 +40,6 @@ public class ImmutableLinkedList implements ImmutableList {
 
     @Override
     public ImmutableLinkedList addAll(Object[] c) {
-
         return addAll(size, c);
     }
 
@@ -69,17 +65,6 @@ public class ImmutableLinkedList implements ImmutableList {
             curNode = curNode.next;
         }
         return curNode.value;
-    }
-
-    public Node getNode(int index) {
-        if (0 > index || index > size) {
-            throw new ArrayIndexOutOfBoundsException("Index out of bounds.");
-        }
-        Node curNode = head;
-        for (int i = 0; i < index; i++) {
-            curNode = curNode.next;
-        }
-        return curNode;
     }
 
     @Override
@@ -132,23 +117,20 @@ public class ImmutableLinkedList implements ImmutableList {
     @Override
     public Object[] toArray() {
         Object[] resultArray = new Object[size];
+        Node curNode = head;
         for (int i = 0; i < size; i++) {
-            resultArray[i] = getNode(i).value;
+            resultArray[i] = curNode.value;
+            curNode = curNode.next;
         }
         return resultArray;
     }
 
     public ImmutableLinkedList addFirst(Object e) {
-        Node prevHead = head;
-        head = new Node(e);
-        head.setNext(prevHead);
-        return new ImmutableLinkedList(size+1);
+        return add(0, e);
     }
 
-    public ImmutableLinkedList addlast(Object e) {
-        tail.setNext(new Node(e));
-        tail = tail.next;
-        return new ImmutableLinkedList(size+1);
+    public ImmutableLinkedList addLast(Object e) {
+        return add(e);
     }
 
     public Object getFirst() {
@@ -159,10 +141,11 @@ public class ImmutableLinkedList implements ImmutableList {
         return tail.value;
     }
 
-//    public ImmutableLinkedList removeFirst() {
-//        head = head.next;
-//        return new ImmutableArrayList(head, tail, ;
-//    }
+    public ImmutableLinkedList removeFirst() {
+        return remove(0);
+    }
 
-
+    public ImmutableLinkedList removeLast() {
+        return remove(size-1);
+    }
 }

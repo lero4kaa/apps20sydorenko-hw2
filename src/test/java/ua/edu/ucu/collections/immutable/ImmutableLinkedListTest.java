@@ -59,11 +59,16 @@ public class ImmutableLinkedListTest {
         ImmutableList actualIm = testImmutableLinked.add(8);
         assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
     }
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetLargeIndex() {
+        testImmutableLinked.get(100);
+    }
     @Test
     public void testGet() {
         int expected = 5;
         assertEquals(expected, testImmutableLinked.get(4));
     }
+
     @Test
     public void remove() {
         Object[] expectedArr = {1,2,4,5};
@@ -124,5 +129,45 @@ public class ImmutableLinkedListTest {
     @Test
     public void testToArray () {
         assertArrayEquals(generalTestArr, testImmutableLinked.toArray());
+    }
+
+    @Test
+    public void testAddFirst () {
+        Object[] expectedArr = {10,1,2,3,4,5};
+        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
+        ImmutableList actualIm = testImmutableLinked.addFirst(10);
+        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
+    }
+
+    @Test
+    public void testAddLast () {
+        Object[] expectedArr = {1,2,3,4,5,10};
+        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
+        ImmutableList actualIm = testImmutableLinked.addLast(10);
+        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
+    }
+    @Test
+    public void testGetFirst () {
+        Object expected = generalTestArr[0];
+        assertEquals(expected, testImmutableLinked.getFirst());
+    }
+    @Test
+    public void testGetLast () {
+        Object expected = generalTestArr[generalTestArr.length-1];
+        assertEquals(expected, testImmutableLinked.getLast());
+    }
+    @Test
+    public void testRemoveFirst () {
+        Object[] expectedArr = {2,3,4,5};
+        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
+        ImmutableList actualIm = testImmutableLinked.removeFirst();
+        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
+    }
+    @Test
+    public void testRemoveLast () {
+        Object[] expectedArr = {1,2,3,4};
+        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
+        ImmutableList actualIm = testImmutableLinked.removeLast();
+        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
     }
 }
