@@ -129,6 +129,18 @@ public class ImmutableLinkedList implements ImmutableList {
         return resultArray;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer bf = new StringBuffer();
+        Node curNode = head;
+        for (int i = 0; i < size; i++) {
+            bf.append(curNode.value + ",");
+            curNode = curNode.next;
+        }
+        bf.deleteCharAt(bf.length()-1);
+        return bf.toString();
+    }
+
     public ImmutableLinkedList addFirst(Object e) {
         return add(0, e);
     }

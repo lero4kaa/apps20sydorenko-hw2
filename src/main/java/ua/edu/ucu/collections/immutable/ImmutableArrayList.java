@@ -109,12 +109,13 @@ public class ImmutableArrayList implements ImmutableList {
         return resultArray;
     }
 
+    @Override
     public String toString() {
         StringBuffer bf = new StringBuffer();
         for (Object element: generalArray) {
-            bf.append(element + " ");
+            bf.append(element + ",");
         }
+        bf.deleteCharAt(bf.length()-1);
         return bf.toString();
     }
-
 }

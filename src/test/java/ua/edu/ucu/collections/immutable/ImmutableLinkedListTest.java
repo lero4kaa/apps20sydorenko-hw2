@@ -198,4 +198,15 @@ public class ImmutableLinkedListTest {
         ImmutableList actualIm = testImmutableLinked.removeLast();
         assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
     }
+    @Test
+    public void testToString() {
+        String expected = "1,2,3,4,5";
+        assertEquals(expected, testImmutableLinked.toString());
+    }
+    @Test
+    public void testToStringEmpty() {
+        String expected = "";
+        ImmutableLinkedList emptyList = new ImmutableLinkedList();
+        assertEquals(expected, emptyList.toString());
+    }
 }

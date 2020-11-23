@@ -162,4 +162,16 @@ public class ImmutableArrayListTest {
         assertArrayEquals(generalTestArr, testImmutable.toArray());
     }
 
+    @Test
+    public void testToString() {
+        String expected = "1,2,3,4,5";
+        assertEquals(expected, testImmutable.toString());
+    }
+
+    @Test
+    public void testToStringEmpty() {
+        String expected = "";
+        ImmutableArrayList emptyList = new ImmutableArrayList();
+        assertEquals(expected, emptyList.toString());
+    }
 }
