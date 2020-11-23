@@ -17,14 +17,6 @@ public class ImmutableLinkedListTest {
         assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
     }
 
-    @Test
-    public void testAddAllIndex0() {
-        Object[] expectedArr = {8, 9, 9, 1, 2, 3, 4, 5};
-        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
-        Object[] arr = {8, 9, 9};
-        ImmutableList actualIm = testImmutableLinked.addAll(0, arr);
-        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
-    }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testAddAllLargeIndex() {
@@ -47,7 +39,7 @@ public class ImmutableLinkedListTest {
     }
 
     @Test
-    public void testAddIndex() {
+    public void testAddIndex0() {
         Object[] expectedArr = {8, 1, 2, 3, 4, 5};
         ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
         ImmutableList actualIm = testImmutableLinked.add(0, 8);
@@ -78,8 +70,8 @@ public class ImmutableLinkedListTest {
     }
     @Test
     public void testGet() {
-        int expected = 5;
-        assertEquals(expected, testImmutableLinked.get(4));
+        int expected = 1;
+        assertEquals(expected, testImmutableLinked.get(0));
     }
 
     @Test
@@ -107,6 +99,23 @@ public class ImmutableLinkedListTest {
         ImmutableList actualIm = testImmutableLinked.set(2,8);
         assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
     }
+
+    @Test
+    public void setIndex0() {
+        Object[] expectedArr = {8,2,3,4,5};
+        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
+        ImmutableList actualIm = testImmutableLinked.set(0,8);
+        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
+    }
+
+    @Test
+    public void setIndexLast() {
+        Object[] expectedArr = {1,2,3,4,8};
+        ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
+        ImmutableList actualIm = testImmutableLinked.set(4,8);
+        assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
+    }
+
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testSetLargeIndex() {

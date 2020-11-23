@@ -2,7 +2,7 @@ package ua.edu.ucu.collections.immutable;
 
 public class Node {
     public Object value;
-    Node next;
+    public Node next;
     public Node(Object v) {
         value = v;
     }

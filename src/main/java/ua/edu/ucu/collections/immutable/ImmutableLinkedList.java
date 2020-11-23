@@ -1,5 +1,7 @@
 package ua.edu.ucu.collections.immutable;
 
+import java.util.Arrays;
+
 public class ImmutableLinkedList implements ImmutableList {
     private Node head;
     private Node tail;
@@ -10,6 +12,11 @@ public class ImmutableLinkedList implements ImmutableList {
         head = new Node();
         tail = head;
         size = 0;
+    }
+
+    private ImmutableLinkedList(Node head, int size) {
+        this.head = head;
+        this.size = size;
     }
 
     public ImmutableLinkedList(Object[] values) {
@@ -49,11 +56,52 @@ public class ImmutableLinkedList implements ImmutableList {
         if (0 > index || index > size) {
             throw new ArrayIndexOutOfBoundsException("Index out of bounds.");
         }
-        Object[] resultArray = new Object[size + c.length];
-        System.arraycopy(generalArray, 0, resultArray, 0, index);
-        System.arraycopy(c, 0, resultArray, index, c.length);
-        System.arraycopy(generalArray, index, resultArray, index + c.length, size - index);
-        return new ImmutableLinkedList(resultArray);
+
+        Node newHead = new Node(head.value);
+        Node curOldNode = head;
+        Node curNewNode = newHead;
+        int newSize = 1;
+
+        if (index == 0) {
+            newHead = new Node(c[0]);
+            curNewNode = newHead;
+        }
+
+        for (int i = 0; i < index-1; i++) {
+            curNewNode.setNext(new Node(curOldNode.next.value));
+            curNewNode = curNewNode.next;
+            curOldNode = curOldNode.next;
+            newSize += 1;
+        }
+
+        for (int i = 0; i < c.length; i++) {
+            curNewNode.setNext(new Node(c[i]));
+            curNewNode = curNewNode.next;
+            newSize += 1;
+        }
+
+        if (size - newSize + c.length == 0) {
+            return new ImmutableLinkedList(newHead, newSize);
+        }
+
+        if (index == 0) {
+            curNewNode.setNext(new Node(curOldNode.value));
+            curNewNode = curNewNode.next;
+        }
+
+        int alreadySize = newSize;
+        for (int i = 0; i < size - (alreadySize-c.length); i++) {
+            curNewNode.setNext(new Node(curOldNode.next.value));
+            curNewNode = curNewNode.next;
+            curOldNode = curOldNode.next;
+            newSize += 1;
+        }
+
+        if (index == 0) {
+            newHead = newHead.next;
+        }
+
+        return new ImmutableLinkedList(newHead, newSize);
     }
 
     @Override
@@ -73,22 +121,77 @@ public class ImmutableLinkedList implements ImmutableList {
         if (0 > index || index > size) {
             throw new ArrayIndexOutOfBoundsException("Index out of bounds.");
         }
-        Object[] resultArray = new Object[size-1];
-        System.arraycopy(generalArray, 0, resultArray, 0, index);
-        System.arraycopy(generalArray, index+1, resultArray, index, size-1-index);
-        return new ImmutableLinkedList(resultArray);
-    }
 
+        Node newHead = new Node(head.value);
+        Node curOldNode = head;
+        Node curNewNode = newHead;
+        int newSize = 1;
+
+        if (index == 0) {
+            newHead = new Node(head.next.value);
+            curNewNode = newHead;
+        }
+
+        for (int i = 0; i < index-1; i++) {
+            curNewNode.setNext(new Node(curOldNode.next.value));
+            curNewNode = curNewNode.next;
+            curOldNode = curOldNode.next;
+            newSize += 1;
+        }
+
+        curOldNode = curOldNode.next;
+        int actualSize = newSize;
+
+        for (int i = 0; i < size-actualSize-1; i++) {
+            curNewNode.setNext(new Node(curOldNode.next.value));
+            curNewNode = curNewNode.next;
+            curOldNode = curOldNode.next;
+            newSize += 1;
+        }
+
+        return new ImmutableLinkedList(newHead, newSize);
+    }
     @Override
     public ImmutableLinkedList set(int index, Object e) {
         if (0 > index || index > size) {
             throw new ArrayIndexOutOfBoundsException("Index out of bounds.");
         }
-        Object[] resultArray = new Object[size];
-        System.arraycopy(generalArray, 0, resultArray, 0, index);
-        resultArray[index] = e;
-        System.arraycopy(generalArray, index+1, resultArray, index+1, size-index-1);
-        return new ImmutableLinkedList(resultArray);
+
+        Node newHead = new Node(head.value);
+        Node curOldNode = head;
+        Node curNewNode = newHead;
+        int newSize = 1;
+
+        if (index == 0) {
+            newHead = new Node(e);
+            curNewNode = newHead;
+        }
+
+        for (int i = 0; i < index-1; i++) {
+            curNewNode.setNext(new Node(curOldNode.next.value));
+            curNewNode = curNewNode.next;
+            curOldNode = curOldNode.next;
+            newSize += 1;
+        }
+
+
+        if (index != 0) {
+            curOldNode = curOldNode.next;
+            curNewNode.setNext(new Node(e));
+            curNewNode = curNewNode.next;
+            newSize += 1;
+        }
+        int actualSize = newSize;
+
+        for (int i = 0; i < size-actualSize; i++) {
+            curNewNode.setNext(new Node(curOldNode.next.value));
+            curNewNode = curNewNode.next;
+            curOldNode = curOldNode.next;
+            newSize += 1;
+        }
+
+
+        return new ImmutableLinkedList(newHead, newSize);
     }
 
     @Override
@@ -156,7 +259,10 @@ public class ImmutableLinkedList implements ImmutableList {
     }
 
     public Object getLast() {
-        return tail.value;
+        if (size == 0) {
+            return get(0);
+        }
+        return get(size-1);
     }
 
     public ImmutableLinkedList removeFirst() {
