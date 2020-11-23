@@ -3,7 +3,7 @@ package ua.edu.ucu.collections;
 import ua.edu.ucu.collections.immutable.ImmutableLinkedList;
 
 public class Queue {
-    ImmutableLinkedList generalQueue;
+    private ImmutableLinkedList generalQueue;
 
     public Queue() {
         generalQueue = new ImmutableLinkedList();

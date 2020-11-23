@@ -6,12 +6,12 @@ public class ImmutableArrayList implements ImmutableList {
     private final Object[] generalArray;
     private final int length;
 
-    public ImmutableArrayList (Object[] values) {
+    public ImmutableArrayList(Object[] values) {
         generalArray = values.clone();
         length = generalArray.length;
     }
 
-    public ImmutableArrayList () {
+    public ImmutableArrayList() {
         generalArray = new Object[0];
         length = 0;
     }
@@ -41,7 +41,8 @@ public class ImmutableArrayList implements ImmutableList {
         Object[] resultArray = new Object[length+c.length];
         System.arraycopy(generalArray, 0, resultArray, 0, index);
         System.arraycopy(c, 0, resultArray, index, c.length);
-        System.arraycopy(generalArray, index, resultArray, index+c.length, length - index);
+        System.arraycopy(generalArray, index, resultArray,
+                  index+c.length, length - index);
         return new ImmutableArrayList(resultArray);
     }
 
@@ -60,7 +61,8 @@ public class ImmutableArrayList implements ImmutableList {
         }
         Object[] resultArray = new Object[length-1];
         System.arraycopy(generalArray, 0, resultArray, 0, index);
-        System.arraycopy(generalArray, index+1, resultArray, index, length-1-index);
+        System.arraycopy(generalArray, index+1,
+                         resultArray, index, length-1-index);
         return new ImmutableArrayList(resultArray);
     }
 
@@ -72,7 +74,8 @@ public class ImmutableArrayList implements ImmutableList {
         Object[] resultArray = new Object[length];
         System.arraycopy(generalArray, 0, resultArray, 0, index);
         resultArray[index] = e;
-        System.arraycopy(generalArray, index+1, resultArray, index+1, length-index-1);
+        System.arraycopy(generalArray, index+1, resultArray,
+                  index+1, length-index-1);
         return new ImmutableArrayList(resultArray);
     }
 
@@ -100,7 +103,7 @@ public class ImmutableArrayList implements ImmutableList {
 
     @Override
     public boolean isEmpty() {
-        return length==0;
+        return length == 0;
     }
 
     @Override
