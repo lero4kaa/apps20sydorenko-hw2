@@ -26,6 +26,11 @@ public class ImmutableArrayListTest {
         ImmutableList checkedExceptionIm = testImmutable.addAll(8, argumentArr);
     }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testAddAllSmallIndex() {
+        ImmutableList checkedExceptionIm = testImmutable.addAll(-8, argumentArr);
+    }
+
     @Test
     public void testAddAll() {
         Object[] expectedArr = {1, 2, 3, 4, 5, 8, 8, 9};
@@ -55,6 +60,11 @@ public class ImmutableArrayListTest {
         ImmutableList checkedIm = testImmutable.add(200, arg);
     }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testAddSmallIndex() {
+        ImmutableList checkedIm = testImmutable.add(-200, arg);
+    }
+
     @Test
     public void testGet() {
         int index = 2;
@@ -65,6 +75,12 @@ public class ImmutableArrayListTest {
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testGetLargeIndex() {
         int index = 200;
+        testImmutable.get(index);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetSmallIndex() {
+        int index = -200;
         testImmutable.get(index);
     }
 
@@ -81,6 +97,11 @@ public class ImmutableArrayListTest {
         ImmutableList checkedIm = testImmutable.remove(200);
     }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testRemoveSmallIndex() {
+        ImmutableList checkedIm = testImmutable.remove(-200);
+    }
+
     @Test
     public void testSet() {
         Object[] expectedArr = {1, 2, 300, 4, 5};
@@ -89,10 +110,14 @@ public class ImmutableArrayListTest {
         assertArrayEquals(checkedIm.toArray(), expectedImmutable.toArray());
     }
 
-
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testSetLargeIndex() {
         ImmutableList checkedIm = testImmutable.set(200, 200);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetSmallIndex() {
+        ImmutableList checkedIm = testImmutable.set(-200, 200);
     }
 
     @Test
@@ -100,6 +125,11 @@ public class ImmutableArrayListTest {
         int expected = 4;
         int actual = testImmutable.indexOf(5);
         assertEquals(expected, actual);
+    }
+    @Test
+    public void testIndexOfAbsent() {
+        int actualIndex = testImmutable.indexOf(20);
+        assertEquals(-1, actualIndex);
     }
 
     @Test

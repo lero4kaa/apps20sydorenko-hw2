@@ -31,6 +31,11 @@ public class ImmutableLinkedListTest {
         Object[] arr = {8, 9, 9};
         testImmutableLinked.addAll(100, arr);
     }
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testAddAllSmallIndex() {
+        Object[] arr = {8, 9, 9};
+        testImmutableLinked.addAll(-2, arr);
+    }
 
     @Test
     public void testAddAll() {
@@ -52,6 +57,10 @@ public class ImmutableLinkedListTest {
     public void testAddLargeIndex() {
         testImmutableLinked.add(100, 8);
     }
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testAddSmallIndex() {
+        testImmutableLinked.add(-2, 8);
+    }
     @Test
     public void testAdd() {
         Object[] expectedArr = {1, 2, 3, 4, 5, 8};
@@ -62,6 +71,10 @@ public class ImmutableLinkedListTest {
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testGetLargeIndex() {
         testImmutableLinked.get(100);
+    }
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGetSmallIndex() {
+        testImmutableLinked.get(-2);
     }
     @Test
     public void testGet() {
@@ -82,12 +95,27 @@ public class ImmutableLinkedListTest {
         testImmutableLinked.remove(20);
     }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void removeSmallIndex() {
+        testImmutableLinked.remove(-2);
+    }
+
     @Test
     public void set() {
         Object[] expectedArr = {1,2,8,4,5};
         ImmutableLinkedList expectedIm = new ImmutableLinkedList(expectedArr);
         ImmutableList actualIm = testImmutableLinked.set(2,8);
         assertArrayEquals(expectedIm.toArray(), actualIm.toArray());
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetLargeIndex() {
+        ImmutableList checkedIm = testImmutableLinked.set(200, 200);
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetSmallIndex() {
+        ImmutableList checkedIm = testImmutableLinked.set(-200, 200);
     }
     @Test
     public void IndexOf() {

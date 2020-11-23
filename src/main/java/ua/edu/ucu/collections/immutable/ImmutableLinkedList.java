@@ -9,6 +9,7 @@ public class ImmutableLinkedList implements ImmutableList {
     public ImmutableLinkedList() {
         head = new Node();
         tail = head;
+        size = 0;
     }
 
     public ImmutableLinkedList(Object[] values) {
@@ -80,6 +81,9 @@ public class ImmutableLinkedList implements ImmutableList {
 
     @Override
     public ImmutableLinkedList set(int index, Object e) {
+        if (0 > index || index > size) {
+            throw new ArrayIndexOutOfBoundsException("Index out of bounds.");
+        }
         Object[] resultArray = new Object[size];
         System.arraycopy(generalArray, 0, resultArray, 0, index);
         resultArray[index] = e;
